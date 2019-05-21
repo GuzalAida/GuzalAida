@@ -22,14 +22,14 @@ int main(int argc, char const *argv[])
 {
 	int status;
 	pid_t guzal_id;
-	openlog(guzallog,LOG_CONS | LOG_PID,LOG_LOCAL0)
+	openlog("guzal",LOG_CONS | LOG_PID,LOG_LOCAL0);
 
 	if (daemon(0,0)==-1){
 		perror("打开守护进程状态");
-		syslog("/home/mardan/guzal.log","打开守护进程状态");
+		syslog(LOG_INFO,"打开守护进程状态");
 		exit(-1);
 	}
-	syslog("/home/mardan/guzal.log","Guzal-Aida--->守护进程已启动");
+	syslog(LOG_INFO,"Guzal-Aida--->守护进程已启动");
 	if ((guzal_id=fork())<0){
 		syslog(LOG_INFO,"Guzal-Aida startup failed.");
 		for (int try_count = 0; (guzal_id=fork()); try_count++){
