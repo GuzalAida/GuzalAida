@@ -1,4 +1,4 @@
-# Guzal-aida
+# GuzalAida
 
 如果想要运行可以执行
 ```
