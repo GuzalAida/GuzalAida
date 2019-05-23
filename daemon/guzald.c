@@ -45,5 +45,6 @@ int main(int argc, char const *argv[])
 			syslog(LOG_INFO,"程序状态:%d",status);
 		}
 	}
+	closelog();
 	return 0;
 }
