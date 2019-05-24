@@ -1,9 +1,0 @@
-[Unit]
-Descrption=Guzal-Aida daemon
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/daemon
-
-[Install]
-WantedBy=multi-user.target
