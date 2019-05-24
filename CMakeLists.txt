@@ -3,7 +3,7 @@ project(GuzalAida)
 
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/${CMAKE_BUILD_TYPE})
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/${CMAKE_BUILD_TYPE}/bin)
 
 add_subdirectory(daemon)
 add_subdirectory(GuzalAida)
