@@ -1,6 +1,6 @@
 # GuzalAida
 
-daemon配置
+daemon配置<br>
 edit file: "/etc/rsyslog.conf" add 
 ```
 #GuzalAida daemon log
