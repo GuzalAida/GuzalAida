@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 {
 	int status;
 	pid_t guzal_id;
-	openlog("guzal",LOG_CONS | LOG_PID,LOG_USER);
+	openlog("guzal",LOG_CONS | LOG_PID,LOG_LOCAL0);
 
 	if (daemon(0,0)==-1){
 		perror("打开守护进程状态");
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 	closelog();
 	while(1){
 		if (guzal_id == 0){
-			//status = execlp("ls",NULL);
+			status = execlp("ls",NULL);
 		}else{
 			wait(&status);
 			syslog(LOG_INFO,"程序状态:%d",status);
