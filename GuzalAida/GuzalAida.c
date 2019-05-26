@@ -9,8 +9,25 @@
 //GuzalAida.c  Copyright (C) 2019  Mardan
 #include <stdio.h>
 
+void logo(){
+printf("\t\t***********------> 参与贡献人员： Mardan & 1101@418 <------***********\n\
+\t\t********---> Particpating Contributors: Mardan & 1101@418 <---********\n\n\
+\t\t\t  -----> Michael\'s Blog: www.michaeltan9999.com <-----\n\
+\t\t\t     -----> LJIJCJ\'s Blog: www.LJIJCJ.top <-----\n\
+\t\t\t\t-----> https://www.mardan.wiki <-----\n\n\
+                                          ,,                    ,,        ,,           \n\
+  .g8\"\"\"bgd                             `7MM          db        db      `7MM            \n\
+.dP'     `M                               MM         ;MM:                 MM            \n\
+dM'       ``7MM  `7MM  M\"\"\"MMV  ,6\"Yb.    MM        ,V^MM.    `7MM   ,M\"\"bMM   ,6\"Yb.   \n\
+MM           MM    MM  '  AMV  8)   MM    MM       ,M  `MM      MM ,AP    MM  8)   MM   \n\
+MM.    `7MMF'MM    MM    AMV    ,pm9MM    MM mmmmm AbmmmqMA     MM 8MI    MM   ,pm9MM   \n\
+`Mb.     MM  MM    MM   AMV  , 8M   MM    MM      A'     VML    MM `Mb    MM  8M   MM   \n\
+  `\"bmmmdPY  `Mbod\"YML.AMMmmmM `Moo9^Yo..JMML.  .AMA.   .AMMA..JMML.`Wbmd\"MML.`Moo9^Yo. \n\
+\n\n\t\t*************************---> GuzalAida <---*************************\n\n");
+}
+
 int main(int argc, char const *argv[])
 {
-	printf("Hello world !!!\n");
+	logo();
 	return 0;
 }
