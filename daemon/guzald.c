@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 	closelog();
 	while(1){
 		if (guzal_id == 0){
-			status = execlp("ls",NULL);
+			status = execlp("/opt/GuzalAida/bin/GuzalAida",NULL);
 		}else{
 			wait(&status);
 			syslog(LOG_INFO,"程序状态:%d",status);
