@@ -4,7 +4,6 @@ daemon配置<br>
 edit file: "/etc/rsyslog.conf" add 
 ```
 #GuzalAida daemon log
-user.GuzalAida  /var/log/GuzalAida
 local0.* /var/log/GuzalAida0
 ```
 重启rsyslog服务
