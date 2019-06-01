@@ -8,6 +8,28 @@
 */
 //GuzalAida.c  Copyright (C) 2019  Mardan
 #include <stdio.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+
+void EXIT(int signo);
+void logo();
+
+
+int main(int argc, char const *argv[]){
+	logo();
+	signal(SIGINT,EXIT);
+	while(1){
+		sleep(1);
+	}
+	return 0;
+}
+
+void EXIT(int signo) {
+    printf("oops! stop!!!\n");
+    _exit(0);
+}
 
 void logo(){
 printf("\t\t***********------> 参与贡献人员： Mardan & 1101@418 <------***********\n\
@@ -24,10 +46,4 @@ MM.    `7MMF'MM    MM    AMV    ,pm9MM    MM mmmmm AbmmmqMA     MM 8MI    MM   ,
 `Mb.     MM  MM    MM   AMV  , 8M   MM    MM      A'     VML    MM `Mb    MM  8M   MM   \n\
   `\"bmmmdPY  `Mbod\"YML.AMMmmmM `Moo9^Yo..JMML.  .AMA.   .AMMA..JMML.`Wbmd\"MML.`Moo9^Yo. \n\
 \n\n\t\t*************************---> GuzalAida <---*************************\n\n");
-}
-
-int main(int argc, char const *argv[])
-{
-	logo();
-	return 0;
 }

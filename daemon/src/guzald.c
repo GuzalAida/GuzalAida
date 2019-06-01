@@ -12,11 +12,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <syslog.h>
+#include <pthread.h>
 #include <sys/wait.h>
 
-int start();
-int restart();
-int stop();
 
 int main(int argc, char const *argv[])
 {
@@ -38,9 +36,10 @@ int main(int argc, char const *argv[])
 		
 	}
 	closelog();
+	status = execlp("/opt/GuzalAida/bin/GuzalAida","GuzalAida",NULL);
 	while(1){
 		if (guzal_id == 0){
-			//status = execlp("GuzalAida","");
+			//status = execlp("./GuzalAida","");
 		}else{
 			wait(&status);
 			syslog(LOG_INFO,"程序状态:%d",status);
