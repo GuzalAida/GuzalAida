@@ -18,7 +18,24 @@
 #define PID_FILE "/var/run/guzald.pid"
 
 int guzald_running(){
-
+	FILE * pidfile = fopen(PID_FILE,"r");
+	pid_t pid;
+	int ret ;
+	if(!pidfile){
+		return 0;
+	}
+	ret = fscanf(pidfile,"%d",&pid);
+	if (ret == EOF && ferror(pidfile) != 0){
+		syslog(LOG_INFO,"Error open pid file: %s",PID_FILE);
+	}
+	fclose(pidfile);
+	// 检测进程是否存在
+	if (kill(pid,0)){
+		syslog(LOG_INFO,"Remove a zombie pid file %s", PID_FILE);
+		unlink(PID_FILE);
+		return 0;
+	}
+	return pid;
 }
 
 int main(int argc, char const *argv[])
@@ -50,5 +67,6 @@ int main(int argc, char const *argv[])
 			syslog(LOG_INFO,"程序状态:%d",status);
 		}
 	}
+	closelog();
 	return 0;
 }

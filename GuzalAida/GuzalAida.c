@@ -19,12 +19,14 @@ void logo();
 
 
 int main(int argc, char const *argv[]){
+	openlog("GuzalAida",LOG_CONS | LOG_PID,LOG_LOCAL0);
 	syslog(LOG_INFO,"启动GuzalAida状态:[ %s ]","OK");
 	logo();
 	signal(SIGINT,EXIT);
 	while(1){
 		sleep(1);
 	}
+	closelog();
 	return 0;
 }
 
