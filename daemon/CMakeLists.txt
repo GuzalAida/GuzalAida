@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(guzald.bin)
+project(guzald)
 
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

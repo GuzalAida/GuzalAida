@@ -9,6 +9,7 @@
 //GuzalAida.c  Copyright (C) 2019  Mardan
 #include <stdio.h>
 #include <unistd.h>
+#include <syslog.h>
 #include <pthread.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -18,6 +19,7 @@ void logo();
 
 
 int main(int argc, char const *argv[]){
+	syslog(LOG_INFO,"启动GuzalAida状态:[ %s ]","OK");
 	logo();
 	signal(SIGINT,EXIT);
 	while(1){
@@ -27,7 +29,7 @@ int main(int argc, char const *argv[]){
 }
 
 void EXIT(int signo) {
-    printf("oops! stop!!!\n");
+    syslog(LOG_INFO,"退出GuzalAida状态:[ %s ]","OK");
     _exit(0);
 }
 

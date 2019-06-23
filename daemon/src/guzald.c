@@ -15,6 +15,11 @@
 #include <pthread.h>
 #include <sys/wait.h>
 
+#define PID_FILE "/var/run/guzald.pid"
+
+int guzald_running(){
+
+}
 
 int main(int argc, char const *argv[])
 {
@@ -30,10 +35,10 @@ int main(int argc, char const *argv[])
 	syslog(LOG_INFO,"Guzal-Aida--->守护进程已启动[%d]",guzal_id);
 	if ((guzal_id=fork())<0){
 		syslog(LOG_INFO,"Guzal-Aida startup failed.");
-		for (int try_count = 0; (guzal_id=fork()); try_count++){
+		for (int try_count = 0; (guzal_id=fork())<0; try_count++){
 			syslog(LOG_INFO,"try to restart the Guzal-Aida a %d time.",try_count);
 		}
-		
+
 	}
 	closelog();
 	status = execlp("/opt/GuzalAida/bin/GuzalAida","GuzalAida",NULL);
