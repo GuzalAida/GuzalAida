@@ -1,0 +1,136 @@
+#!/bin/bash --posix
+# Part of rpi64-config https://github.com/GuzalAida/GuzalAida/raspi-config
+#
+# See LICENSE file for copyright and license details
+
+
+is_rpi64 () {
+  ARCH=$(dpkg --print-architecture)
+  if [ "$ARCH" = "arm64" ] ; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+if is_rpi64 ; then
+  CMDLINE=/boot/cmdline.txt
+else
+  CMDLINE=/proc/cmdline
+fi
+
+deb_ver () {
+  ver_m=`cat /etc/issue.net`
+  ver=`cat /etc/debian_version | cut -d . -f 2`
+  echo ${ver_m}.$ver
+}
+
+about() {
+  echo "This tool provides a straight-forward way of doing initial"
+  echo "configuration of the Raspberry Pi 3B+ (rpi64@GuzalAida). Although it can be run"
+  echo "at any time, some of the options may have difficulties if"
+  echo -en "you have heavily customised your installation.\n\n"
+}
+
+list_wlan_interfaces() {
+  for dir in /sys/class/net/*/wireless; do
+    if [ -d "$dir" ]; then
+      basename "$(dirname "$dir")"
+    fi
+  done
+}
+
+get_wifi_country() {
+  CODE=${1:-0}
+  IFACE="$(list_wlan_interfaces | head -n 1)"
+  if [ -z "$IFACE" ]; then
+    if [ "$INTERACTIVE" = True ]; then
+      echo "No wireless interface found"
+    fi
+    return 1
+  fi
+  if ! wpa_cli -i "$IFACE" status > /dev/null 2>&1; then
+    if [ "$INTERACTIVE" = True ]; then
+      echo "Could not communicate with wpa_supplicant"
+    fi
+    return 1
+  fi
+  wpa_cli -i "$IFACE" save_config > /dev/null 2>&1
+  COUNTRY="$(wpa_cli -i "$IFACE" get country)"
+  if [ "$COUNTRY" = "FAIL" ]; then
+    return 1
+  fi
+  if [ $CODE = 0 ]; then
+    echo "$COUNTRY"
+  fi
+  return 0
+}
+
+
+do_wifi_country() {
+  IFACE="$(list_wlan_interfaces | head -n 1)"
+  if [ -z "$IFACE" ]; then
+    if [ "$INTERACTIVE" = True ]; then
+      echo "No wireless interface found"
+    fi
+    return 1
+  fi
+
+  if ! wpa_cli -i "$IFACE" status > /dev/null 2>&1; then
+    if [ "$INTERACTIVE" = True ]; then
+      echo "Could not communicate with wpa_supplicant"
+    fi
+    return 1
+  fi
+
+  oIFS="$IFS"
+  if [ "$INTERACTIVE" = True ]; then
+    IFS="/"
+    COUNTRY="CN"
+    IFS=$oIFS
+  else
+    COUNTRY=CN
+    true
+  fi
+  if [ $? -eq 0 ];then
+    wpa_cli -i "$IFACE" set country "$COUNTRY"
+    wpa_cli -i "$IFACE" save_config > /dev/null 2>&1
+    if ! iw reg set "$COUNTRY" 2> /dev/null; then
+        ASK_TO_REBOOT=1
+    fi
+    if hash rfkill 2> /dev/null; then
+        rfkill unblock wifi
+    fi
+    if [ "$INTERACTIVE" = True ]; then
+        echo "Wi-fi country set to $COUNTRY"
+    fi
+  fi
+}
+
+
+do_finish() {
+  disable_raspi_config_at_boot
+  if [ $ASK_TO_REBOOT -eq 1 ]; then
+    echo "Would you like to reboot now?"
+    sleep 3
+    if [ $? -eq 0 ]; then # yes
+      sync
+      reboot
+    fi
+  fi
+  exit 0
+}
+
+about
+if is_rpi64 ;then
+	echo -en "OS : rpi64@`uname -r`\t"
+	deb_ver
+else
+	echo "EXIT..."
+	exit 0
+fi
+
+echo -en "WIFI Country: "
+get_wifi_country
+echo -en "${IFACE} set country CN is "
+do_wifi_country
